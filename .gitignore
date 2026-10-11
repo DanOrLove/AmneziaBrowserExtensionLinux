@@ -1,0 +1,16 @@
+# Private VPN profiles and keys — never commit these files.
+*.conf
+*.vpn
+*.wg
+
+# Generated native host and local build/cache files.
+native/AmneziaBrowserVpnHost
+native/*.log
+.build-*/
+
+# Editor and operating-system files.
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
