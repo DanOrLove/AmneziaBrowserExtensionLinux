@@ -41,6 +41,12 @@ type response struct {
 
 func main() {
 	if len(os.Args) > 1 {
+		if len(os.Args) == 2 && strings.HasPrefix(os.Args[1], "chrome-extension://") {
+			// Chromium passes the calling extension origin as the first argument
+			// when it starts a Native Messaging host.
+			runNativeHost()
+			return
+		}
 		switch os.Args[1] {
 		case "proxy":
 			if len(os.Args) != 3 {

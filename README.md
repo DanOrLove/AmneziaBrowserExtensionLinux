@@ -39,14 +39,14 @@ Native Messaging host собирается для текущей архитек�
    cd ~/Downloads/AmneziaBrowserExtensionLinux
    ```
 
-3. Соберите и зарегистрируйте локальный компонент:
+3. Запустите установщик:
 
    ```sh
-   bash ./native/build.sh
-   bash ./native/install.sh
+   chmod +x ./install.sh
+   ./install.sh
    ```
 
-   Сборка создаст `native/AmneziaBrowserVpnHost` для архитектуры текущей системы. Установщик регистрирует Native Messaging в пользовательском каталоге конфигурации (`$XDG_CONFIG_HOME` или `~/.config`) для Chrome, Chrome for Testing, Chromium, Edge, Brave и Vivaldi. Права администратора не нужны.
+   Скрипт соберёт `native/AmneziaBrowserVpnHost` для текущей архитектуры, зарегистрирует Native Messaging для Chrome, Chrome for Testing, Chromium, Edge, Brave и Vivaldi в пользовательском каталоге конфигурации (`$XDG_CONFIG_HOME` или `~/.config`) и откроет страницу расширений, если найдёт установленный браузер. Права администратора не нужны.
 
 4. Откройте `chrome://extensions` в Chrome или Chromium, `edge://extensions` в Edge, `brave://extensions` в Brave либо `vivaldi://extensions` в Vivaldi.
 5. Включите **Режим разработчика**, нажмите **Загрузить распакованное расширение** и выберите папку `extension` внутри проекта.
@@ -65,11 +65,10 @@ Native Messaging host собирается для текущей архитек�
 
 ### Сборка из исходников и обновление
 
-После изменения кода повторите сборку и регистрацию:
+После изменения кода повторно запустите установщик, чтобы пересобрать и зарегистрировать компонент:
 
 ```sh
-bash ./native/build.sh
-bash ./native/install.sh
+./install.sh
 ```
 
 Затем откройте страницу расширений и перезагрузите расширение. Профили остаются в локальном хранилище браузера при перезагрузке расширения. При удалении расширения браузер может удалить его локальные данные, поэтому храните исходные конфиги отдельно.
@@ -89,13 +88,13 @@ bash ./native/install.sh
 
 ### Устранение неполадок
 
-- **«Native host has exited» / компонент не найден:** убедитесь, что `native/AmneziaBrowserVpnHost` существует и исполняемый. Повторите `bash ./native/install.sh`, затем перезапустите браузер.
+- **«Native host has exited» / компонент не найден:** убедитесь, что `native/AmneziaBrowserVpnHost` существует и исполняемый. Повторите `./install.sh`, затем перезапустите браузер.
 - **Ошибка Go при сборке:** проверьте `go version` (нужна версия 1.25+) и интернет-соединение; затем повторите `bash ./native/build.sh`.
 - **Порт 1080 занят:** закройте приложение, использующее `127.0.0.1:1080`, и подключитесь снова.
 - **Сайт не открывается:** проверьте доступность сервера, `PrivateKey`/`PublicKey`, `Endpoint` и параметры обфускации. Журнал компонента находится в `~/.config/AmneziaBrowserVPN/proxy.log` (или `$XDG_CONFIG_HOME/AmneziaBrowserVPN/proxy.log`).
 - **Расширение не может изменить прокси или WebRTC:** проверьте политики браузера и другие расширения, которые управляют теми же настройками.
 - **Браузер не находит host в Snap/Flatpak:** проверьте документацию пакета и ограничения его sandbox. Установщик поддерживает стандартные пользовательские пути Native Messaging.
-- **Браузер не находит host после перемещения проекта:** повторно запустите `bash ./native/install.sh` из новой папки и перезапустите браузер.
+- **Браузер не находит host после перемещения проекта:** повторно запустите `./install.sh` из новой папки и перезапустите браузер.
 
 ### Ограничения и безопасность
 
@@ -113,6 +112,7 @@ bash ./native/install.sh
 - `native/process_linux.go` — запуск и обнаружение процесса туннеля на Linux через `/proc`.
 - `native/build.sh` — сборка исполняемого файла для архитектуры текущего Linux.
 - `native/install.sh` — регистрация/удаление Native Messaging host для поддерживаемых браузеров текущего пользователя.
+- `install.sh` — сборка, регистрация Native Messaging и открытие страницы расширений.
 - `native/THIRD_PARTY.md` — сведения об основной внешней зависимости.
 
 ## English
@@ -144,14 +144,14 @@ The native host is built for the current Linux architecture and registered for t
    cd ~/Downloads/AmneziaBrowserExtensionLinux
    ```
 
-3. Build and register the local component:
+3. Run the installer:
 
    ```sh
-   bash ./native/build.sh
-   bash ./native/install.sh
+   chmod +x ./install.sh
+   ./install.sh
    ```
 
-   The build creates `native/AmneziaBrowserVpnHost` for the current system architecture. The installer registers Native Messaging in the user config directory (`$XDG_CONFIG_HOME` or `~/.config`) for Chrome, Chrome for Testing, Chromium, Edge, Brave, and Vivaldi. Administrator privileges are not required.
+   The script builds `native/AmneziaBrowserVpnHost` for the current architecture, registers Native Messaging for Chrome, Chrome for Testing, Chromium, Edge, Brave, and Vivaldi in the user config directory (`$XDG_CONFIG_HOME` or `~/.config`), and opens the extensions page if it finds an installed browser. Administrator privileges are not required.
 
 4. Open `chrome://extensions` in Chrome or Chromium, `edge://extensions` in Edge, `brave://extensions` in Brave, or `vivaldi://extensions` in Vivaldi.
 5. Enable **Developer mode**, choose **Load unpacked**, and select the repository's `extension` folder.
@@ -170,11 +170,10 @@ If the browser was open during Native Messaging registration, restart it or relo
 
 ### Rebuild and update
 
-After changing the code, rebuild and register the native component again:
+After changing the code, rerun the installer to rebuild and register the native component:
 
 ```sh
-bash ./native/build.sh
-bash ./native/install.sh
+./install.sh
 ```
 
 Then reload the extension on the browser's extensions page. Profiles remain in local extension storage when the extension is reloaded. Removing the extension may delete them, so keep the original configuration files separately.
@@ -200,7 +199,7 @@ Then reload the extension on the browser's extensions page. Profiles remain in l
 - **A website does not load:** check server availability, `PrivateKey`/`PublicKey`, `Endpoint`, and obfuscation settings. The component log is at `~/.config/AmneziaBrowserVPN/proxy.log` (or `$XDG_CONFIG_HOME/AmneziaBrowserVPN/proxy.log`).
 - **The extension cannot change proxy or WebRTC settings:** check browser policies and other extensions that may control the same settings.
 - **The browser cannot find the host in Snap/Flatpak:** check the package documentation and sandbox restrictions. The installer targets standard user Native Messaging locations.
-- **The browser cannot find the host after the project was moved:** rerun `bash ./native/install.sh` from its new location and restart the browser.
+- **The browser cannot find the host after the project was moved:** rerun `./install.sh` from its new location and restart the browser.
 
 ### Limitations and security
 
@@ -218,6 +217,7 @@ Then reload the extension on the browser's extensions page. Profiles remain in l
 - `native/process_linux.go` — launches and checks the tunnel process on Linux via `/proc`.
 - `native/build.sh` — builds the executable for the current Linux architecture.
 - `native/install.sh` — registers/unregisters the Native Messaging host for supported browsers for the current user.
+- `install.sh` — builds and registers Native Messaging, then opens the extensions page.
 - `native/THIRD_PARTY.md` — information about the main third-party dependency.
 
 Chrome's documented Linux Native Messaging directories are `~/.config/google-chrome/NativeMessagingHosts`, `~/.config/google-chrome-for-testing/NativeMessagingHosts`, and `~/.config/chromium/NativeMessagingHosts`. See [Chrome for Developers: Native messaging](https://developer.chrome.com/docs/extensions/develop/concepts/native-messaging#native-messaging-host-location) and [Microsoft Edge: Native messaging](https://learn.microsoft.com/en-us/microsoft-edge/extensions/developer-guide/native-messaging) for browser-specific paths and manifest requirements.
