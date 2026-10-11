@@ -2,6 +2,12 @@
 
 A Chromium extension and local Linux Native Messaging host for using an AmneziaWG/WireGuard profile in the browser. The host runs AmneziaWG in a userspace network stack and exposes a SOCKS5 proxy on `127.0.0.1:1080`. Chromium web traffic uses that proxy; Linux system routes and other applications are not changed.
 
+
+### Windows
+ Отдельный репозиторий для Windows-версии: https://github.com/DanOrLove/AmneziaBrowserExtensionWindows
+ ### macOS 
+ Отдельный репозиторий для macOS-версии: https://github.com/DanOrLove/AmneziaBrowserExtensionMacOS
+
 > **Status:** early prototype. Build and connection behavior still need confirmation on real Linux distributions and browser packages. TCP web traffic is supported; UDP traffic is not tunneled. Review [Limitations and security](#limitations-and-security) before relying on it.
 
 ## Русский
